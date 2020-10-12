@@ -1,12 +1,14 @@
-const crypto = require("crypto");
 const express = require("express");
 const bodyParser = require("express");
 const request = require("request");
 const firebase = require("firebase");
 const morgan = require("morgan");
-const PORT = 3000;
 
-firebase.initializeApp(require("./config"));
+const config = require('./config');
+
+const PORT = config.port;
+
+firebase.initializeApp(config.firebase);
 
 const app = express();
 app.use(morgan("dev"));
@@ -46,12 +48,10 @@ app.get("/api/register", async (req, res) => {
     active: true
   };
 
-  // Add a new document in collection "cities" with ID 'LA'
-  const result = await db.collection("users").doc(email).set(data);
+  await db.collection("users").doc(email).set(data);
 
   return res.json({
     message: "success",
-    result
   });
 });
 
