@@ -41,13 +41,14 @@ app.get("/api/register", (req, res) => {
   const database = firebase.database();
 
   const shasum = crypto.createHash('sha1')
-  shasum.update('foo')
+  shasum.update(email)
   const mailhash = shasum.digest('hex')
 
 
   database.ref("users/"+mailhash).set({
     email,
     countries,
+    active: true
   });
   return res.json({
     message: "success",
