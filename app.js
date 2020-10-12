@@ -1,9 +1,15 @@
+const crypto = require('crypto');
 const express = require("express");
 const bodyParser = require("express");
 const request = require("request");
+const firebase = require("firebase");
+const morgan = require("morgan");
 const PORT = 3000;
 
+firebase.initializeApp(require('./config'));
+
 const app = express();
+app.use(morgan('dev'))
 
 app.use(bodyParser.json());
 
@@ -20,17 +26,32 @@ app.get("/api/country", (_, res) => {
     headers: {},
   };
 
-  request(options, (error, response)=> {
-    if (error) return res.json({
-      error
-    });
+  request(options, (error, response) => {
+    if (error)
+      return res.json({
+        error,
+      });
     const result = JSON.parse(response.body);
     res.json(result);
   });
 });
 
 app.get("/api/register", (req, res) => {
-  res.json(req.body)
+  const { email, countries } = req.body;
+  const database = firebase.database();
+
+  const shasum = crypto.createHash('sha1')
+  shasum.update('foo')
+  const mailhash = shasum.digest('hex')
+
+
+  database.ref("users/"+mailhash).set({
+    email,
+    countries,
+  });
+  return res.json({
+    message: "success",
+  });
 });
 
 app.listen(PORT, () => {
