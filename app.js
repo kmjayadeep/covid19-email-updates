@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const crypto = require("crypto");
 const express = require("express");
 const bodyParser = require("express");
 const request = require("request");
@@ -6,10 +6,10 @@ const firebase = require("firebase");
 const morgan = require("morgan");
 const PORT = 3000;
 
-firebase.initializeApp(require('./config'));
+firebase.initializeApp(require("./config"));
 
 const app = express();
-app.use(morgan('dev'))
+app.use(morgan("dev"));
 
 app.use(bodyParser.json());
 
@@ -36,22 +36,22 @@ app.get("/api/country", (_, res) => {
   });
 });
 
-app.get("/api/register", (req, res) => {
+app.get("/api/register", async (req, res) => {
   const { email, countries } = req.body;
-  const database = firebase.database();
+  const db = firebase.firestore();
 
-  const shasum = crypto.createHash('sha1')
-  shasum.update(email)
-  const mailhash = shasum.digest('hex')
-
-
-  database.ref("users/"+mailhash).set({
+  const data = {
     email,
     countries,
     active: true
-  });
+  };
+
+  // Add a new document in collection "cities" with ID 'LA'
+  const result = await db.collection("users").doc(email).set(data);
+
   return res.json({
     message: "success",
+    result
   });
 });
 
