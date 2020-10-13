@@ -1,36 +1,35 @@
 import React, { useEffect, useState } from "react";
-import Select from 'react-select'
-import makeAnimated from 'react-select/animated';
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 
 import "./App.css";
 
 const animatedComponents = makeAnimated();
 
 const customStyles = {
-  container: ()=>({
-    width:"85%",
+  container: () => ({
+    width: "85%",
     margin: "auto",
-    padding: "20px 0"
+    padding: "20px 0",
   }),
-  menu: (provided)=>({
+  menu: (provided) => ({
     ...provided,
     top: "55%",
-    width: "85%"
-  })
-}
+    width: "85%",
+  }),
+};
 
 function AnimatedMulti() {
-  
-  const [ options, setOptions ] = useState([])
+  const [options, setOptions] = useState([]);
 
-  useEffect(()=>{
-    fetch('http://localhost:3000/api/country')
-      .then(res=>res.json())
-      .then(data=>{
-        console.log(data)
+  useEffect(() => {
+    fetch("http://localhost:3000/api/country")
+      .then((res) => res.json())
+      .then((data) => {
         setOptions(data);
-      }).catch(console.log)
-  },[]);
+      })
+      .catch(console.log);
+  }, []);
 
   return (
     <Select
@@ -51,7 +50,7 @@ function App() {
       <div className="jumbotron">
         <h1 className="display-3">Covid19 Daily Updates</h1>
         <p className="lead">
-          Receive Daily email updates of Covid19 cases in the countries you are
+          Receive Daily email updates of Covid19 cases for the countries you are
           interested in
         </p>
       </div>
@@ -69,7 +68,17 @@ function App() {
 
             <AnimatedMulti />
 
-            <input type="submit" className="fadeIn fourth" value="Sign Up" />
+            <label className="checkbox-container">
+              <input type="checkbox" />
+              <span className="checkmark"></span>
+              Include Global Stats
+            </label>
+
+            <input
+              type="submit"
+              className="fadeIn fourth button"
+              value="Sign Up"
+            />
           </form>
         </div>
       </div>
