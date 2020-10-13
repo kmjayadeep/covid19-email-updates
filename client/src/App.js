@@ -1,5 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated';
+
 import "./App.css";
+
+const animatedComponents = makeAnimated();
+
+const customStyles = {
+  container: ()=>({
+    width:"85%",
+    margin: "auto",
+    padding: "20px 0"
+  }),
+  menu: (provided)=>({
+    ...provided,
+    top: "55%",
+    width: "85%"
+  })
+}
+
+function AnimatedMulti() {
+  
+  const [ options, setOptions ] = useState([])
+
+  useEffect(()=>{
+    fetch('http://localhost:3000/api/country')
+      .then(res=>res.json())
+      .then(data=>{
+        console.log(data)
+        setOptions(data);
+      }).catch(console.log)
+  },[]);
+
+  return (
+    <Select
+      closeMenuOnSelect={false}
+      components={animatedComponents}
+      // defaultValue={[colourOptions[4], colourOptions[5]]}
+      isMulti
+      styles={customStyles}
+      options={options}
+      placeholder="Countries"
+    />
+  );
+}
 
 function App() {
   return (
@@ -22,13 +66,9 @@ function App() {
               name="email"
               placeholder="Email Address"
             />
-            <input
-              type="text"
-              id="country"
-              className="fadeIn third"
-              name="country"
-              placeholder="Countries"
-            />
+
+            <AnimatedMulti />
+
             <input type="submit" className="fadeIn fourth" value="Sign Up" />
           </form>
         </div>

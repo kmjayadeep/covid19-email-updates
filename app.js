@@ -3,6 +3,8 @@ const bodyParser = require("express");
 const request = require("request");
 const firebase = require("firebase");
 const morgan = require("morgan");
+const path = require('path')
+const cors = require('cors')
 
 const config = require('./config');
 
@@ -12,6 +14,7 @@ firebase.initializeApp(config.firebase);
 
 const app = express();
 app.use(morgan("dev"));
+app.use(cors());
 
 app.use(bodyParser.json());
 
@@ -34,7 +37,10 @@ app.get("/api/country", (_, res) => {
         error,
       });
     const result = JSON.parse(response.body);
-    res.json(result);
+    res.json(result.map(r=>({
+      value: r.alpha3,
+      label: r.name, 
+    })));
   });
 });
 
