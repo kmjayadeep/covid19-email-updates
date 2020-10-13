@@ -4,6 +4,8 @@ import makeAnimated from "react-select/animated";
 
 import "./App.css";
 
+const BASE_URL = "http://localhost:3000/api"
+
 const animatedComponents = makeAnimated();
 
 const customStyles = {
@@ -23,7 +25,7 @@ function AnimatedMulti() {
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/country")
+    fetch(`${BASE_URL}/country`)
       .then((res) => res.json())
       .then((data) => {
         setOptions(data);
