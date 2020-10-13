@@ -44,13 +44,14 @@ app.get("/api/country", (_, res) => {
   });
 });
 
-app.get("/api/register", async (req, res) => {
-  const { email, countries } = req.body;
+app.post("/api/register", async (req, res) => {
+  const { email, countries, includeGlobal } = req.body;
   const db = firebase.firestore();
 
   const data = {
     email,
     countries,
+    includeGlobal,
     active: true
   };
 
