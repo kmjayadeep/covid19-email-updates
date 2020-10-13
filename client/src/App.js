@@ -4,7 +4,7 @@ import makeAnimated from "react-select/animated";
 
 import "./App.css";
 
-const BASE_URL = "http://localhost:3000/api"
+const BASE_URL = "http://localhost:3000/api";
 
 const animatedComponents = makeAnimated();
 
@@ -21,7 +21,7 @@ const customStyles = {
   }),
 };
 
-function AnimatedMulti() {
+function AnimatedMulti({ onChange }) {
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
@@ -42,11 +42,37 @@ function AnimatedMulti() {
       styles={customStyles}
       options={options}
       placeholder="Countries"
+      onChange={onChange}
     />
   );
 }
 
 function App() {
+  const [email, setEmail] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [includeGlobal, setIncludeGlobal] = useState(true);
+  const [registered, setRegistered] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const url = `${BASE_URL}/register`;
+    const countryCodes = countries.map((c) => c.value);
+    const data = {
+      email,
+      countries: countryCodes,
+      includeGlobal,
+    };
+    const response = await fetch(url, {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then((r) => r.json());
+    console.log(response);
+    setRegistered(true);
+  };
+
   return (
     <div className="App">
       <div className="jumbotron">
@@ -57,21 +83,43 @@ function App() {
         </p>
       </div>
 
+      {registered ? (
+        <div class="alert fadeIn alert-register alert-dismissible alert-info">
+          <button
+            type="button"
+            class="close"
+            onClick={() => setRegistered(false)}
+          >
+            &times;
+          </button>
+          <strong>Registration Success!</strong>
+        </div>
+      ) : (
+        ""
+      )}
+
       <div className="wrapper fadeInDown">
         <div id="formContent">
-          <form>
+          <form onSubmit={handleSubmit}>
             <input
-              type="text"
+              type="email"
               id="email"
+              required
               className="fadeIn second"
               name="email"
               placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
 
-            <AnimatedMulti />
+            <AnimatedMulti onChange={(e) => setCountries(e)} />
 
             <label className="checkbox-container">
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                checked={includeGlobal}
+                onChange={(e) => setIncludeGlobal(e.target.checked)}
+              />
               <span className="checkmark"></span>
               Include Global Stats
             </label>
