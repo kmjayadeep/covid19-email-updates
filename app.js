@@ -38,7 +38,7 @@ app.get("/api/country", (_, res) => {
       });
     const result = JSON.parse(response.body);
     res.json(result.map(r=>({
-      value: r.alpha3,
+      value: r.alpha2,
       label: r.name, 
     })));
   });
