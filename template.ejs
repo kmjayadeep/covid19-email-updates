@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Covid19 Updates</title>
+  </head>
+  <body>
+
+    <h1>Covid19 Updates</h1>
+
+    <% countries.forEach(function(country){ %>
+
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title"><%= country.country %></h5>
+          <p class="card-text">
+            Total Cases : <%= country.overall.cases %>
+          <br/>
+            Total Deaths : <%= country.overall.deaths %>
+          <br/>
+            Total Recovered : <%= country.overall.recovered %>
+          </p>
+          <p class="card-text">
+            New Cases : <%= country.today.cases %>
+          <br/>
+            New Deaths : <%= country.today.deaths %>
+          <br/>
+            New Recovered : <%= country.today.recovered %>
+          </p>
+        </div>
+      </div>
+
+
+    <% }); %>
+
+  </body>
+</html>

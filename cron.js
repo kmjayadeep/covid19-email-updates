@@ -2,8 +2,8 @@ const config = require("./config");
 const firebase = require("firebase");
 const request = require("request");
 const moment = require("moment");
-
-// const mailgun = require('mailgun-js');
+const ejs = require("ejs");
+const mailgun = require('mailgun-js');
 
 firebase.initializeApp(config.firebase);
 
@@ -32,6 +32,8 @@ async function processMail(data) {
     countries.push(countryData);
   }
   console.log(countries)
+  const template = await ejs.renderFile('./template.ejs',{ countries });
+  await sendMail(data.email, template);
 }
 
 async function fetchDailyStats(country, day) {
@@ -68,21 +70,30 @@ async function fetchData(country) {
   }
 }
 
+
+async function sendMail(to, body) {
+  const mg = mailgun({apiKey: config.mailgun.apiKey, domain: config.mailgun.domain});
+  const data = {
+    from: config.mailgun.from,
+    to,
+    subject: 'Covid19 Updates',
+    html: body,
+  };
+  return new Promise((resolve, reject)=>{
+    mg.messages().send(data, function (error, body) {
+      if(error){
+        console.log(error)
+        return reject(error)
+      }
+      console.log(body);
+      resolve(body)
+    });
+  });
+}
+
+
 cron().catch((err) => {
   console.log(err);
   process.exit(1);
 });
 
-// const mg = mailgun({apiKey: config.mailgun.apiKey, domain: config.mailgun.domain});
-// const data = {
-// from: config.mailgun.from,
-// to: 'kmjayadeep@gmail.com',
-// subject: 'works again',
-// text: 'works'
-// };
-// mg.messages().send(data, function (error, body) {
-// if(error){
-// console.log(error)
-// }
-// console.log(body);
-// });
