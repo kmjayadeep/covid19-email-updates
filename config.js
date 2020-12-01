@@ -9,6 +9,6 @@ module.exports = {
   mailgun:{
     apiKey: process.env.MAILGUN_API_KEY,
     domain: process.env.MAILGUN_DOMAIN,
-    from: process.env.MAILGUN_FROM
+    from: 'Covid19 Updates <covid19@sandbox.mgsend.net>'
   }
 };
