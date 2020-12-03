@@ -1,0 +1,38 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: covid19-mailer
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: covid19-mailer-cron
+            image: docker.io/kmjayadeep/covid19-mailer-cron:latest
+            imagePullPolicy: Always
+            env:
+            - name: FIREBASE_API_KEY
+              valueFrom:
+                configMapKeyRef:
+                  key: FIREBASE_API_KEY
+                  name: covid19-mailer-config
+            - name: FIREBASE_PROJECT_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: FIREBASE_PROJECT_ID
+                  name: covid19-mailer-config
+            - name: MAILGUN_DOMAIN
+              valueFrom:
+                configMapKeyRef:
+                  key: MAILGUN_DOMAIN
+                  name: covid19-mailer-config
+            - name: MAILGUN_API_KEY
+              valueFrom:
+                configMapKeyRef:
+                  key: MAILGUN_API_KEY
+                  name: covid19-mailer-config
+
+          restartPolicy: OnFailure
+
