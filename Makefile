@@ -1,6 +1,6 @@
 
 cron:
-	podman build -t docker.io/kmjayadeep/covid19-mailer-cron:latest cron/
+	podman build -t docker.io/kmjayadeep/covid19-mailer-cron:latest --format docker cron/
 
 cron-push:
 	podman push docker.io/kmjayadeep/covid19-mailer-cron:latest

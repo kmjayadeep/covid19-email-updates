@@ -3,7 +3,8 @@ kind: CronJob
 metadata:
   name: covid19-mailer
 spec:
-  schedule: "0 * * * *"
+  schedule: "0 5 * * *"
+  successfulJobsHistoryLimit: 0
   jobTemplate:
     spec:
       template:
@@ -33,6 +34,4 @@ spec:
                 configMapKeyRef:
                   key: MAILGUN_API_KEY
                   name: covid19-mailer-config
-
           restartPolicy: OnFailure
-
