@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: covid19-mailer
 spec:
-  schedule: "0 5 * * *"
+  schedule: "0 0 * * *"
   successfulJobsHistoryLimit: 0
   jobTemplate:
     spec:

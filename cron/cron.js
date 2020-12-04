@@ -61,11 +61,17 @@ async function fetchData(country) {
   const day2Stats = await fetchDailyStats(country, day2);
   return {
     country,
-    overall: yesterdayStats,
+    overall: {
+      cases: yesterdayStats.cases,
+      deaths: yesterdayStats.deaths,
+      recovered: yesterdayStats.recovered,
+      active: yesterdayStats.cases - yesterdayStats.recovered,
+    },
     today: {
       cases: yesterdayStats.cases - day2Stats.cases,
       deaths: yesterdayStats.deaths - day2Stats.deaths,
-      recovered: yesterdayStats.recovered - day2Stats.recovered
+      recovered: yesterdayStats.recovered - day2Stats.recovered,
+      active: yesterdayStats.cases - yesterdayStats.recovered - day2Stats.cases + day2Stats.recovered,
     }
   }
 }
