@@ -12,22 +12,13 @@
   </head>
   <body>
 
-    <h1>Covid19 Updates</h1>
+    <h1>Covid19 Updates for <%= date %></h1>
 
     <% countries.forEach(function(country){ %>
 
       <div class="card" style="width: 18rem;">
         <div class="card-body">
           <h5 class="card-title"><%= country.country %> - source : <%= country.source %></h5>
-          <p class="card-text">
-            Total Cases : <%= country.overall.cases %>
-          <br/>
-            Total Deaths : <%= country.overall.deaths %>
-          <br/>
-            Total Recovered : <%= country.overall.recovered %>
-          <br/>
-            Total Active : <%= country.overall.active %>
-          </p>
           <p class="card-text">
             New Cases : <%= country.today.cases %>
           <br/>
@@ -36,6 +27,15 @@
             New Recovered : <%= country.today.recovered %>
           <br/>
             New Active : <%= country.today.active %>
+          </p>
+          <p class="card-text">
+            Total Cases : <%= country.overall.cases %>
+          <br/>
+            Total Deaths : <%= country.overall.deaths %>
+          <br/>
+            Total Recovered : <%= country.overall.recovered %>
+          <br/>
+            Total Active : <%= country.overall.active %>
           </p>
         </div>
       </div>

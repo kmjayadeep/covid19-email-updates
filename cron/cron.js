@@ -33,11 +33,12 @@ async function processMail(data) {
     countries.push(countryData);
   }
   console.log(countries)
-  const template = await ejs.renderFile('./template.ejs',{ countries });
+  const date = moment().add(-1,'days').format("MMM Do, dddd");
+  const template = await ejs.renderFile('./template.ejs',{ countries, date});
   // return new Promise((resolve)=>{
     // fs.writeFile('template.html', template, resolve)
   // })
-  await sendMail(data.email, template);
+  await sendMail(data.email, template, date);
 }
 
 async function fetchDailyStats(country, day) {
@@ -128,12 +129,12 @@ async function fetchData(country) {
 }
 
 
-async function sendMail(to, body) {
+async function sendMail(to, body, date) {
   const mg = mailgun({apiKey: config.mailgun.apiKey, domain: config.mailgun.domain});
   const data = {
     from: config.mailgun.from,
     to,
-    subject: 'Covid19 Updates',
+    subject: `Covid19 Updates for ${date}`,
     html: body,
   };
   return new Promise((resolve, reject)=>{
