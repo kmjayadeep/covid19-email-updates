@@ -116,9 +116,9 @@ async function fetchData(country) {
         active: (yesterdayStats.cases - yesterdayStats.recovered).toLocaleString(locale)
       },
       today: {
-        cases: yesterdayStats.cases - day2Stats.cases.toLocaleString(locale),
-        deaths: yesterdayStats.deaths - day2Stats.deaths.toLocaleString(locale),
-        recovered: yesterdayStats.recovered - day2Stats.recovered.toLocaleString(locale),
+        cases: (yesterdayStats.cases - day2Stats.cases).toLocaleString(locale),
+        deaths: (yesterdayStats.deaths - day2Stats.deaths).toLocaleString(locale),
+        recovered: (yesterdayStats.recovered - day2Stats.recovered).toLocaleString(locale),
         active: (yesterdayStats.cases - yesterdayStats.recovered - day2Stats.cases + day2Stats.recovered).toLocaleString(locale)
       }
     }
