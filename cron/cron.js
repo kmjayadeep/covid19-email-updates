@@ -101,7 +101,7 @@ async function fetchData(country) {
         cases: indiaData.delta.confirmed.toLocaleString(locale),
         deaths: indiaData.delta.deceased.toLocaleString(locale),
         recovered: indiaData.delta.recovered.toLocaleString(locale),
-        tested: indiaData.delta.tested.toLocaleString(locale),
+        tested: (indiaData.delta.tested || 0).toLocaleString(locale),
         active: (indiaData.delta.confirmed - indiaData.delta.recovered).toLocaleString(locale)
       },
     }

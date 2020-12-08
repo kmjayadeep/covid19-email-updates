@@ -4,7 +4,8 @@ metadata:
   name: covid19-mailer
 spec:
   schedule: "0 0 * * *"
-  successfulJobsHistoryLimit: 0
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
       template:
